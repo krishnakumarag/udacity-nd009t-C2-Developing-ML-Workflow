@@ -85,6 +85,7 @@ def lambda_handler(event, context):
 
     # Grab the inferences from the event
     inferences = event['inferences']
+    inferences = [float(x) for x in inferences[1:-1].split(',')]
 
     # Check if any values in our inferences are above THRESHOLD
     meets_threshold =  any (x >= THRESHOLD for x in inferences)
@@ -98,5 +99,10 @@ def lambda_handler(event, context):
 
     return {
         'statusCode': 200,
-        'body': json.dumps(event)
+        'body': {
+            "image_data": event['image_data'],
+            "s3_bucket": event['s3_bucket'],
+            "s3_key": event['s3_key'],
+            "inferences": event['inferences'],
+        }
     }

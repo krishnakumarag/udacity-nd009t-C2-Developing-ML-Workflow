@@ -24,5 +24,10 @@ def lambda_handler(event, context):
     event["inferences"] = inferences.decode('utf-8')
     return {
         'statusCode': 200,
-        'body': json.dumps(event)
+        'body': {
+            "image_data": event['image_data'],
+            "s3_bucket": event['s3_bucket'],
+            "s3_key": event['s3_key'],
+            "inferences": event['inferences'],
+        }
     }
